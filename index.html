@@ -87,10 +87,14 @@
             
             <div class="fall-item"></div>
     </div>
+     <audio id="scoresound" src="./Point Scored Paddle Game.mp3"></audio>
+     <audio id="scoremissed" src="./Point Missed Paddle Game.mp3"></audio>
+     <audio id="gameoversound" src="./Game Over Paddle Game.mp3"></audio>
     <div class="btn">
 
         <button onclick="left()"> <= </button>
         <button onclick="right()"> => </button>
+       
     </div>
     <script>
        const basket = document.querySelector('.basket')
@@ -99,8 +103,13 @@
        let scoredisplay = document.getElementById('score')
        let missed = 0
        let misseddisplay = document.getElementById('missed')
+       let scoresound = document.getElementById('scoresound')
+       let scoremissed = document.getElementById('scoremissed')
+       let gameoversound = document.getElementById('gameoversound')
 
        let basketposition = 170
+
+
 
 
        function left(){
@@ -140,21 +149,26 @@
                     basketrect.left > fallitemrect.right ||
                      basketrect.right < fallitemrect.left
                  )
+    
             }
             function gloop() {
                 let falltop = parseInt(fallitem.style.top || '30');
                  falltop+=5;
                  fallitem.style.top = falltop +'px'
                  if (falltop > 550) {
-                    missed++ 
+                    missed++
+                    scoremissed.play()
                     misseddisplay.textContent=`Missed: ${missed}`
                     if (missed===3) {
+                         gameoversound.play()
                         alert(`Game Over! Your score was ${score}`)
+                       
                         location.reload() 
                     }
                     resetitem()
                  } if (falldetect()) {
                     score++
+                    scoresound.play()
                     scoredisplay.textContent='Score: '+ score
 
                     if (score %10===0) {
